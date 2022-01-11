@@ -15,9 +15,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Hello from test pusher server!")
-})
+app.post("/messages", (req, res) => {
+  console.log(req.body);
+
+  pusher.trigger(req.body.channelName, req.body.event, req.body)
+    .then(() => {
+      res.json({"message": "send message success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
 app.post("/pusher/auth", (req, res) => {
   const socketId = req.body.socket_id;
   const channel = req.body.channel_name;
