@@ -15,10 +15,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
+// SEND_MESSAGE
 app.post("/messages", (req, res) => {
-  console.log(req.body);
+  req.body.value.commentBadges = [];
 
-  pusher.trigger(req.body.channelName, req.body.event, req.body)
+  pusher.trigger(req.body.channelName, "message", req.body)
     .then(() => {
       res.json({"message": "send message success"});
     })
@@ -27,15 +28,65 @@ app.post("/messages", (req, res) => {
     })
 });
 
-app.post("/pusher/auth", (req, res) => {
-  const socketId = req.body.socket_id;
-  const channel = req.body.channel_name;
-  console.log(`new auth request: socketId = ${socketId}, channel = ${channel}`);
-  const auth = pusher.authenticate(socketId, channel);
-  res.send(auth);
+// MUTE
+app.put("/live/:liveIdentifier/setting/mute/:state", (req, res) => {
+  let pusherBody = {
+    "type": req.params.state == "ON" ? "START_MUTE/1": "END_MUTE/1"
+  }
+
+  pusher.trigger(req.params.liveIdentifier, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "mute function success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
 });
 
-const port = process.env.PORT || 1999;
+// MIRROR
+app.put("/live/:liveIdentifier/setting/mirror/:state", (req, res) => {
+  let pusherBody = {
+    "type": req.params.state == "ON" ? "START_MIRROR/1": "END_MIRROR/1"
+  }
+
+  pusher.trigger(req.params.liveIdentifier, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "mirror function success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// FINISH_LIVE
+app.delete("/live/:liveIdentifier", (req, res) => {
+  let pusherBody = {
+    "type": "END_LIVE/1"
+  }
+
+  pusher.trigger(req.params.liveIdentifier, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "finish live success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// SEND_NICE
+app.post("/live/nice", (req, res) => {
+  req.body.value.commentBadges = [];
+
+  pusher.trigger(req.body.channelName, "message", req.body)
+    .then(() => {
+      res.json({"message": "send message success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+const port = process.env.PORT || 1234;
 app.listen(port, () => {
   console.log(`Start listening on port ${port}`);
 });
