@@ -31,7 +31,7 @@ app.post("/messages", (req, res) => {
 // MUTE
 app.put("/live/:liveIdentifier/setting/mute/:state", (req, res) => {
   let pusherBody = {
-    "type": req.params.state == "ON" ? "START_MUTE/1": "END_MUTE/1"
+    type: req.params.state == "ON" ? "START_MUTE/1": "END_MUTE/1"
   }
 
   pusher.trigger(req.params.liveIdentifier, "message", pusherBody)
@@ -46,7 +46,7 @@ app.put("/live/:liveIdentifier/setting/mute/:state", (req, res) => {
 // MIRROR
 app.put("/live/:liveIdentifier/setting/mirror/:state", (req, res) => {
   let pusherBody = {
-    "type": req.params.state == "ON" ? "START_MIRROR/1": "END_MIRROR/1"
+    type: req.params.state == "ON" ? "START_MIRROR/1": "END_MIRROR/1"
   }
 
   pusher.trigger(req.params.liveIdentifier, "message", pusherBody)
@@ -61,7 +61,7 @@ app.put("/live/:liveIdentifier/setting/mirror/:state", (req, res) => {
 // FINISH_LIVE
 app.delete("/live/:liveIdentifier", (req, res) => {
   let pusherBody = {
-    "type": "END_LIVE/1"
+    type: "END_LIVE/1"
   }
 
   pusher.trigger(req.params.liveIdentifier, "message", pusherBody)
@@ -156,6 +156,291 @@ app.post("/gift", (req, res) => {
   pusher.trigger(req.body.channelName, "message", pusherBody)
     .then(() => {
       res.json(pusherBody.value);
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// PUBLISH_LIVE
+app.post("/publish-live", (req, res) => {
+  let pusherBody = {
+    type: "PUBLISH_LIVE/1"
+  }
+
+  pusher.trigger(req.body.channelName, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "publish live success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// PRIVATE_LIVE
+app.post("/private-live", (req, res) => {
+  let pusherBody = {
+    type: "PRIVATE_LIVE/1"
+  }
+
+  pusher.trigger(req.body.channelName, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "private live success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// JOIN_USER
+app.post("/join-user", (req, res) => {
+  let pusherBody = {
+    type: "JOIN_USER/1",
+    value: {
+      registeredDateTime:"2021-04-13T01:56:13.184Z",
+      catchPhrase:{
+        id:"eb870be8-0164-4bb9-b547-0a42784e11a0",
+        value:""
+      },
+      id:"f0951350-89c5-413d-a1f2-f39def9799fc",
+      level:63,
+      sub:"ZfOMNvXYFYUTUnt5IQfUKfQWNid2",
+      picture:{
+        id:"4ec75437-92aa-4962-aec7-8ac61f7acbfe",
+        uri:"https://user-cdn.dev.everylive.jp/f095135089c5413da1f2f39def9799fc_01bbacea947c4092b7e43d99cc7bc97e",
+        mediaType:"image/png"
+      },
+      loginId:"th93",
+      description:{
+        id:"da870811-ba58-467d-807f-6b51917153f4",
+        value:""
+      },
+      liverLeague:1
+    }
+  }
+
+  pusher.trigger(req.body.channelName, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "join user success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// LEAVE_USER
+app.post("/leave-user", (req, res) => {
+  let pusherBody = {
+    type: "LEAVE_USER/1",
+    value: {
+      registeredDateTime:"2021-04-13T01:56:13.184Z",
+      catchPhrase:{
+        id:"eb870be8-0164-4bb9-b547-0a42784e11a0",
+        value:""
+      },
+      id:"f0951350-89c5-413d-a1f2-f39def9799fc",
+      level:63,
+      sub:"ZfOMNvXYFYUTUnt5IQfUKfQWNid2",
+      picture:{
+        id:"4ec75437-92aa-4962-aec7-8ac61f7acbfe",
+        uri:"https://user-cdn.dev.everylive.jp/f095135089c5413da1f2f39def9799fc_01bbacea947c4092b7e43d99cc7bc97e",
+        mediaType:"image/png"
+      },
+      loginId:"th93",
+      description:{
+        id:"da870811-ba58-467d-807f-6b51917153f4",
+        value:""
+      },
+      liverLeague:1
+    }
+  }
+
+  pusher.trigger(req.body.channelName, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "leave user success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// FOLLOW_USER
+app.post("/follow-user", (req, res) => {
+  let pusherBody = {
+    type: "FOLLOW_USER/1",
+    value: {
+      registeredDateTime:"2021-04-13T01:56:13.184Z",
+      catchPhrase:{
+        id:"eb870be8-0164-4bb9-b547-0a42784e11a0",
+        value:""
+      },
+      id:"f0951350-89c5-413d-a1f2-f39def9799fc",
+      level:63,
+      sub:"ZfOMNvXYFYUTUnt5IQfUKfQWNid2",
+      picture:{
+        id:"4ec75437-92aa-4962-aec7-8ac61f7acbfe",
+        uri:"https://user-cdn.dev.everylive.jp/f095135089c5413da1f2f39def9799fc_01bbacea947c4092b7e43d99cc7bc97e",
+        mediaType:"image/png"
+      },
+      loginId:"th93",
+      description:{
+        id:"da870811-ba58-467d-807f-6b51917153f4",
+        value:""
+      },
+      liverLeague:1
+    }
+  }
+
+  pusher.trigger(req.body.channelName, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "follow user success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// NOTIFY_BERRY_COIN
+app.post("/notify-berry-coin", (req, res) => {
+  let pusherBody = {
+    type: "NOTIFY_BERRY_COIN/1",
+    value: {
+      coin: 69
+    }
+  }
+
+  pusher.trigger(req.body.channelName, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "notify berry coin success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// NOTIFY_SCORE
+app.post("/notify-score", (req, res) => {
+  let pusherBody = {
+    type: "NOTIFY_SCORE/1",
+    value: {
+      score: 180
+    }
+  }
+
+  pusher.trigger(req.body.channelName, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "notify score success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// NOTIFY_LIVER_LEVEL
+app.post("/notify-level", (req, res) => {
+  let pusherBody = {
+    type: "NOTIFY_LIVER_LEVEL/1",
+    value: {
+      registeredDateTime:"2021-04-13T01:56:13.184Z",
+      catchPhrase:{
+        id:"eb870be8-0164-4bb9-b547-0a42784e11a0",
+        value:""
+      },
+      id:"f0951350-89c5-413d-a1f2-f39def9799fc",
+      level: 69,
+      sub:"ZfOMNvXYFYUTUnt5IQfUKfQWNid2",
+      picture:{
+        id:"4ec75437-92aa-4962-aec7-8ac61f7acbfe",
+        uri:"https://user-cdn.dev.everylive.jp/f095135089c5413da1f2f39def9799fc_01bbacea947c4092b7e43d99cc7bc97e",
+        mediaType:"image/png"
+      },
+      loginId:"th93",
+      description:{
+        id:"da870811-ba58-467d-807f-6b51917153f4",
+        value:""
+      },
+      liverLeague:1
+    }
+  }
+
+  pusher.trigger(req.body.channelName, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "notify liver level success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// NOTIFY_BOARD
+app.post("/notify-board", (req, res) => {
+  let pusherBody = {
+    type:"NOTIFY_BOARD/1",
+    value:{
+      id:"42d731df-e3df-492e-9a2b-a6363ed48c6b",
+      point:{
+        x:50,
+        y:50
+      },
+      message:"hello",
+      type:{
+        id:"8b406bd9-fa3f-48a3-88a9-89692789c47d",
+        textColor:"#000000",
+        image:{
+          id:"87979132-e482-46e0-a9c3-d9966a1e8680",
+          uri:"https://system-cdn.dev.everylive.jp/system/a4ad44c13ba641c0a003f60d19efadd5_board_01_adjust_2.png",
+          mediaType:"image/png"
+        }
+      }
+    }
+ }
+
+  pusher.trigger(req.body.channelName, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "notify board success"});
+    })
+    .catch(() => {
+      res.status(400).json({"message": "something wrong happened."});
+    })
+});
+
+// NOTIFY_GIFTTOP_AUDIENCE
+app.post("/notify-gifttop", (req, res) => {
+  let pusherBody = {
+    type:"NOTIFY_GIFTTOP_AUDIENCE/1",
+    value:[
+      {
+        id:"6616b4c4-80fd-427f-a6e3-5e3871b882f1",
+        sub:"h5BtZkj43yZjgtTwpyIdjLbfPQC3",
+        registeredDateTime:"2021-07-27T08:37:05.115Z",
+        loginId:"kysubon",
+        level:1,
+        notAllowedStreamingUntilDateTime:null,
+        liverLeague:3,
+        isCertifiedLiver:false,
+        picture:{
+          id:"3341840e-91dc-4f79-9634-cb460fea2bf1",
+          uri:"https://user-cdn.everylive.jp/2ab192a2ae1f4292961fa41e3683627d_ee3409616a6b43f6ba7402d8d00ee9da",
+          mediaType:"image/png"
+        },
+        description:{
+          id:"a24f83eb-ccb6-4d5e-87dd-18db5fe1b73f",
+          value:""
+        },
+        catchPhrase:{
+          id:"97f8cc9c-adf0-4652-8d1b-72e028bcd384",
+          value:""
+        },
+        coin:20,
+        star:1
+      }
+    ],
+    sendDateTime:"2022-01-26T04:45:40.102Z"
+ }
+
+  pusher.trigger(req.body.channelName, "message", pusherBody)
+    .then(() => {
+      res.json({"message": "notify gift top success"});
     })
     .catch(() => {
       res.status(400).json({"message": "something wrong happened."});
